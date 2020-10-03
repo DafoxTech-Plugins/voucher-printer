@@ -1,6 +1,11 @@
 (function () {
   'use strict';
-  var App = angular.module("adopisoft");
+  var App;
+  try{
+    App = angular.module("AdoPiSoft");
+  }catch(e){
+    App = angular.module("adopisoft");
+  }
   var selector = '[ng-controller="VouchersCtrl"] .vouchers-table [ng-change="updateAllSelect(this)"]'
   selector += ', [ng-controller="VouchersCtrl"] .vouchers-table [ng-change="selectAll()"]'
   var $scope, $injector, initialized = false

@@ -1,6 +1,6 @@
 <div style="display: inline-block; border:1px solid black; margin:5px; text-align:center; width: 180px">
   <div style="padding:10px;">
-    <img src="/logo.png" style="height:20px; float:left;">
+    <img src="/logo" style="height:20px; float:left;">
 
     <div>
       <small style="float: right">Batch #:&nbsp; <batchnumber></small>
