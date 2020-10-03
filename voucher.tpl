@@ -30,6 +30,8 @@
     <small style="float:left" >Expiration:&nbsp; <expiration> </small>
     <br/>
     <small style="float:left" >Max. Users:&nbsp;<maxuser></small>
+    <br/>
+    <small style="float:left" >Price:&nbsp; <price> </small>
     <hr style="border-bottom:1px dotted gray; margin-bottom:1px;">
     <small><i>Affordable internet connectivity</i></small>
   </div>

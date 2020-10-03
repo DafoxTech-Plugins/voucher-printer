@@ -40,7 +40,9 @@ exports.generatePrintableVouchers = async(req, res, next)=>{
           exp = v.expiration_hours? (Math.floor(v.minutes/60) + v.expiration_hours + "Hrs") : "N/A"
           break;
       }
-
+      c = c.replace(/\<price\s?\>/gi, v.price)
+      c = c.replace(/\<bandwidthdown\s?\>/gi, Math.round(v.bandwidth_down_kbps/1024))
+      c = c.replace(/\<bandwidthup\s?\>/gi, Math.round(v.bandwidth_up_kbps/1024))
       c = c.replace(/\<ratevalue\s?\>/gi, rateval)
       c = c.replace(/\<maxuser\s?\>/gi, v.max_users)
 
