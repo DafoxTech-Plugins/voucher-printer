@@ -70,8 +70,8 @@ exports.generatePrintableVouchers = async(req, res, next)=>{
       c = c.replace(/\<minutes\s?\>/gi, formatTime(v.minutes))
       c = c.replace(/\<megabytes\s?\>/gi, formatData(v.megabytes))
       c = c.replace(/\<price\s?\>/gi, v.price)
-      c = c.replace(/\<bandwidthdown\s?\>/gi, Math.round(v.bandwidth_down_kbps/1024))
-      c = c.replace(/\<bandwidthup\s?\>/gi, Math.round(v.bandwidth_up_kbps/1024))
+      c = c.replace(/\<bandwidthdown\s?\>/gi, (v.bandwidth_down_kbps/1024).toFixed(2) )
+      c = c.replace(/\<bandwidthup\s?\>/gi, (v.bandwidth_up_kbps/1024).toFixed(2) )
       c = c.replace(/\<ratevalue\s?\>/gi, rateval)
       c = c.replace(/\<maxuser\s?\>/gi, v.max_users)
 
