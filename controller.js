@@ -26,7 +26,7 @@ exports.generatePrintableVouchers = async(req, res, next)=>{
       switch(v.type){
         case 'time':
           rateval = v.minutes +" Min.";
-          exp = v.expiration_hours? ((v.minutes/60) + v.expiration_hours + "Hrs") : "N/A"
+          exp = v.expiration_hours? (Math.floor(v.minutes/60) + v.expiration_hours + "Hrs") : "N/A"
           break;
         case 'data':
           rateval = v.megabytes +" MB";
@@ -37,7 +37,7 @@ exports.generatePrintableVouchers = async(req, res, next)=>{
           break;
         case 'time_or_data':
           rateval = v.minutes +"Min. / "+ v.megabytes +"MB";
-          exp = v.expiration_hours? ((v.minutes/60) + v.expiration_hours + "Hrs") : "N/A"
+          exp = v.expiration_hours? (Math.floor(v.minutes/60) + v.expiration_hours + "Hrs") : "N/A"
           break;
       }
 
