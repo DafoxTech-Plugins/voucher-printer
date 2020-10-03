@@ -19,7 +19,7 @@
         $("body .to-print").remove()
         VoucherPrinterService.generatePrintableVouchers(vouchers, opts||{}).then(function(res){
           $("#http-spinner").show();
-          $("body div:visible").addClass("no-print")
+          $("body div:visible:not(.no-print)").addClass("no-print")
           var content = res.data.content
           var div = document.createElement('div');
           div.classList.add("to-print")
@@ -30,9 +30,10 @@
             document.title = "vouchers.pdf"
             $("#http-spinner").hide();
             window.print();
-            $("body div.no-print").removeClass("no-print")
-            document.title = o_title
           },3000)
+          window.onafterprint = function(){
+            document.title = o_title
+          }
         }).catch(CatchHttpError)
       }
 
