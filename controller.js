@@ -10,6 +10,32 @@ var writeFile = util.promisify(fs.writeFile)
 var tpl_path = path.join(__dirname, "./voucher.tpl")
 var default_tpl_path = path.join(__dirname, "./voucher-default.tpl")
 
+function formatTime(minutes){
+  if(minutes < 60) return minutes+"Mins."
+  if(minutes < 60*24){
+    var hrs = parseInt(minutes/60)
+    if(hrs < minutes/60){
+      return hrs + "Hr"+(hrs>1?'s':'')+". : "+(minutes - (hrs*60))+"Mins."
+    }else{
+      return hrs + "Hr"+(hrs>1?'s':'')+"."
+    }
+  }
+
+  var days = parseInt((minutes/60)/24)
+  if(days < (minutes/60)/24){
+    return days + "D" + " : " + formatTime(minutes - days*60*24)
+  }else{
+    return days + "D"
+  }
+}
+
+function formatData(mb){
+  if(mb<1024) return mb+"MB"
+  return (mb/1024).toFixed(2)+"GB";
+}
+
+var rate_types = {time: "Time", data: "Data", time_or_data: "Time/Data"}
+
 exports.generatePrintableVouchers = async(req, res, next)=>{
   try{
     var {vouchers, opts} = req.body
@@ -21,25 +47,28 @@ exports.generatePrintableVouchers = async(req, res, next)=>{
       var v = vouchers[i]
       var c = tpl.replace(/\<batchnumber\s?\>/gi, v.batch_number)
       c = c.replace(/\<vouchercode\s?\>/gi, v.code)
-      c = c.replace(/\<ratetype\s?\>/gi, v.type.toUpperCase())
+      c = c.replace(/\<ratetype\s?\>/gi, rate_types[v.type]||v.type )
       var rateval, exp;
       switch(v.type){
         case 'time':
-          rateval = v.minutes +" Min.";
-          exp = v.expiration_hours? (Math.floor(v.minutes/60) + v.expiration_hours + "Hrs") : "N/A"
+          rateval = formatTime(v.minutes)
+          exp = v.expiration_hours? formatTime(v.expiration_hours*60) : "N/A"
           break;
         case 'data':
-          rateval = v.megabytes +" MB";
-          exp = v.expiration_hours? (v.expiration_hours + "Hrs") : "N/A"
+          rateval = formatData(v.megabytes)
+          exp = v.expiration_hours? formatTime(v.expiration_hours*60) : "N/A"
           break;
         case 'eload':
           rateval = v.eload_amount;
           break;
         case 'time_or_data':
-          rateval = v.minutes +"Min. / "+ v.megabytes +"MB";
-          exp = v.expiration_hours? (Math.floor(v.minutes/60) + v.expiration_hours + "Hrs") : "N/A"
+          rateval = formatTime(v.minutes)+" / "+ formatData(v.megabytes);
+          exp = v.expiration_hours? formatTime(v.expiration_hours*60) : "N/A"
           break;
       }
+      c = c.replace(/\<eloadamount\s?\>/gi, v.eload_amount)
+      c = c.replace(/\<minutes\s?\>/gi, formatTime(v.minutes))
+      c = c.replace(/\<megabytes\s?\>/gi, formatData(v.megabytes))
       c = c.replace(/\<price\s?\>/gi, v.price)
       c = c.replace(/\<bandwidthdown\s?\>/gi, Math.round(v.bandwidth_down_kbps/1024))
       c = c.replace(/\<bandwidthup\s?\>/gi, Math.round(v.bandwidth_up_kbps/1024))
