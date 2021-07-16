@@ -6,7 +6,7 @@ var fs = require('fs')
 var util = require('util')
 var readFile = util.promisify(fs.readFile)
 var writeFile = util.promisify(fs.writeFile)
-var tpl_path = path.join(__dirname, './voucher.tpl')
+var tpl_path = process.env.NODE_ENV === 'development' ? path.join(__dirname, './voucher.tpl') : path.join('/etc', 'voucher.tpl')
 var default_tpl_path = path.join(__dirname, './voucher-default.tpl')
 
 function formatTime (minutes) {
@@ -101,7 +101,12 @@ exports.getSettings = async (req, res, next) => {
     var content = await readFile(tpl_path, 'utf8')
     res.json({content})
   } catch (e) {
-    next(e)
+    try {
+      content = await readFile(default_tpl_path, 'utf8')
+      res.json({content})
+    } catch (e) {
+      next(e)
+    }
   }
 }
 

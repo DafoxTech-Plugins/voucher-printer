@@ -12,6 +12,19 @@
             <label>Printable Voucher Template:</label>
             <textarea name="content" class="form-control" ng-model="$parent.content" rows="15"></textarea>
           </div>
+          <div class="col-md-2">
+            <br/>
+            <label>Preview (With QR):</label>
+            <br/>
+            <div ng-bind-html="$parent.previewVoucherQR()"></div>
+          </div>
+
+          <div class="col-md-2">
+            <br/>
+            <label>Preview (No QR):</label>
+            <br/>
+            <div ng-bind-html="$parent.previewVoucher()"></div>
+          </div>
         </div>
         <br/>
         <button type="submit" ng-disabled="form.$invalid" ladda="$parent.saving" class="btn btn-primary">Save Changes</button>
