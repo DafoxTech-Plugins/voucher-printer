@@ -1,9 +1,8 @@
-'use strict';
-var router = require("./router")
-var { app } = require('../core')
+var router = require('./router')
+var { app } = require('plugin-core')
 
 module.exports = {
-  async init(){
+  async init () {
     app.use(router)
   }
 }
