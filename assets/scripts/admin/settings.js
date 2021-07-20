@@ -4,7 +4,7 @@
   var App = angular.module('Plugins')
   App.config(function ($stateProvider) {
     $stateProvider.state('plugins.voucher-printer', {
-      templateUrl: '/plugins/voucher-printer/views/index.html',
+      templateUrl: '/public/plugins/voucher-printer/views/index.html',
       controller: 'VoucherPrinterSettingsCtrl',
       url: '/voucher-printer',
       title: 'Voucher Printer'
@@ -57,7 +57,7 @@
       preview = preview.replace(/<ratetype\s?>/gi, 'Time')
       preview = preview.replace(/<ratevalue\s?>/gi, '2hrs.')
       if (withQr) {
-        preview = preview.replace(/<qrcode\s?>/gi, '<img src="/plugins/voucher-printer/assets/images/qr.png" style="width:60%;margin:10px"></img>')
+        preview = preview.replace(/<qrcode\s?>/gi, '<img src="/public/plugins/voucher-printer/assets/images/qr.png" style="width:60%;margin:10px"></img>')
       } else {
         preview = preview.replace(/<qrcode\s?>/gi, '')
       }
