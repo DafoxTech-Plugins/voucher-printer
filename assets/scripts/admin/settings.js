@@ -63,7 +63,7 @@
       }
       preview = preview.replace(/<maxuser\s?>/gi, '1')
       preview = preview.replace(/<expiration\s?>/gi, '1D')
-      preview = preview.replace(/<price\s?>/gi, '$10')
+      preview = preview.replace(/<price\s?>/gi, '10')
       preview = preview.replace(/<bandwidthdown\s?>/gi, '10MB')
       preview = preview.replace(/<bandwidthup\s?>/gi, '10MB')
       preview = preview.replace(/<vouchercode\s?>/gi, 'DF123121')
