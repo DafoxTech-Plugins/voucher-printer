@@ -39,7 +39,12 @@ exports.generatePrintableVouchers = async (req, res, next) => {
   try {
     var {vouchers, opts} = req.body
     var {with_qr} = opts || {}
-    var tpl = await readFile(tpl_path, 'utf8')
+    try {
+      var tpl = await readFile(tpl_path, 'utf8')
+    } catch (e) {
+      var tpl = await readFile(default_tpl_path, 'utf8')
+    }
+
     vouchers = vouchers.sort((a, b) => a.batch_number - b.batch_number)
     var content = ''
     for (var i = 0; i < vouchers.length; i++) {
